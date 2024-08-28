@@ -14,6 +14,11 @@ const playlistSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User', // Reference to the User collection
     required: true
+  },
+  admin_id: { 
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Admin', // Reference to the Admin collection
+    required: true // Ensures that a playlist must be associated with an admin
   }
 }, {
   timestamps: true // Adds createdAt and updatedAt fields

@@ -1,15 +1,23 @@
 import express from 'express';
-import { allAdmins, addAdmin, delAdmin } from '../controllers/admin.js';
+import {
+  getAllAdmins,   
+  createAdmin,    
+  deleteAdmin , 
+  updateAdmin
+} from '../controllers/admin.js';
 
 const router = express.Router();
 
 // Route to get all admins
-router.get("/", allAdmins);
+router.get('/', getAllAdmins);
 
-// Route to add a new admin
-router.post("/add", addAdmin);
+// Route to create a new admin
+router.post('/create', createAdmin);
 
 // Route to delete an admin
-router.delete("/", delAdmin);
+router.delete('/delete', deleteAdmin);
+
+// Route to update an admin
+router.put('/update', updateAdmin);
 
 export default router;

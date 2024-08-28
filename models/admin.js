@@ -18,7 +18,11 @@ const adminSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true
-  }
+  },
+  playlists: [{ 
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Playlist' // Reference to the Playlist collection
+  }]
 }, {
   timestamps: true // Automatically adds createdAt and updatedAt fields
 });
