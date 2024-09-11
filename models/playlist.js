@@ -1,27 +1,27 @@
 import mongoose from 'mongoose';
 
 const playlistSchema = new mongoose.Schema({
-  title: {
+  name: {
     type: String,
     required: true,
-    unique: true
   },
-  tracks: [{
+  description: {
+    type: String,
+  },
+  songs: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Music' // Reference to the Music collection
+    ref: 'Music',  // Reference to the Music model
   }],
-  user_id: {
+  user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User', // Reference to the User collection
-    required: true
-  },
-  admin_id: { 
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Admin', // Reference to the Admin collection
-    required: true // Ensures that a playlist must be associated with an admin
+    ref: 'User',  // Reference to the User model
+    required: true,  // Ensure that a playlist is always linked to a user
   }
 }, {
-  timestamps: true // Adds createdAt and updatedAt fields
+  timestamps: true,  // Adds createdAt and updatedAt fields
 });
 
-export default mongoose.model('Playlist', playlistSchema);
+// Create the Playlist model
+const Playlist = mongoose.model('Playlist', playlistSchema);
+
+export default Playlist;

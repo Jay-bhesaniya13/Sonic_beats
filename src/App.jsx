@@ -7,6 +7,7 @@ import Register from './Register'
 function App() {
   
   return (
+
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
@@ -14,6 +15,7 @@ function App() {
         <Route path="/register" element={<Register />} />
       </Routes>
     </Router>
+    
   )
 
 }

@@ -1,18 +1,19 @@
 import express from 'express';
 import {
-  getAllTracks,
-  addTrack,
-  getTrackByTitle,
-  updateTrackByTitle,
-  deleteTrackByTitle
+  getAllMusic,
+  getMusicById,
+  createMusic,
+  updateMusicById,
+  deleteMusicById
 } from '../controllers/music.js';
 
 const router = express.Router();
 
-router.get('/', getAllTracks); // Get all tracks
-router.post('/add', addTrack); // Add a new track
-router.get('/:title', getTrackByTitle); // Get a track by title
-router.put('/:title', updateTrackByTitle); // Update a track by title
-router.delete('/:title', deleteTrackByTitle); // Delete a track by title
+// Define routes for music operations
+router.get('/', getAllMusic);
+router.get('/:id', getMusicById);
+router.post('/', createMusic);
+router.put('/:id', updateMusicById);
+router.delete('/:id', deleteMusicById);
 
 export default router;

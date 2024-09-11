@@ -1,31 +1,19 @@
 import express from 'express';
 import {
-  createPlaylist,
-  addSongToPlaylist,
   getAllPlaylists,
-  getPlaylistByTitle,
-  updatePlaylistTitle,
-  deletePlaylist
+  getPlaylistById,
+  createPlaylist,
+  updatePlaylistById,
+  deletePlaylistById
 } from '../controllers/playlist.js';
 
 const router = express.Router();
 
-// Create a new playlist
-router.post('/create', createPlaylist);
-
-// Add a song to a playlist
-router.post('/:title/song', addSongToPlaylist);
-
-// Get all playlists
+// Define routes for playlist operations
 router.get('/', getAllPlaylists);
-
-// Get a playlist by title
-router.get('/:title', getPlaylistByTitle);
-
-// Update playlist title
-router.put('/title', updatePlaylistTitle); // Use /title for updating title
-
-// Delete a playlist by title
-router.delete('/:title', deletePlaylist);
+router.get('/:id', getPlaylistById);
+router.post('/', createPlaylist);
+router.put('/:id', updatePlaylistById);
+router.delete('/:id', deletePlaylistById);
 
 export default router;

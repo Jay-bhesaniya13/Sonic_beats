@@ -1,73 +1,68 @@
-
 import User from '../models/user.js';
+import Playlist from '../models/playlist.js';
 
-export const allUsers = async (req, res) => {
+// Fetch all users
+export const getAllUsers = async (req, res) => {
   try {
-    const users = await User.find(); // Retrieves all users
-    console.log(users); // Log users for debugging
-    res.status(200).json(users); // Send the retrieved users as the response
+    const users = await User.find();
+    res.status(200).json(users);
   } catch (error) {
-    console.error('Error retrieving users:', error); // Log error for debugging
-    res.status(500).json({ error: 'An error occurred while retrieving users.' });
+    console.error('Error fetching users:', error);
+    res.status(500).json({ message: 'Error fetching users', error });
   }
 };
 
-export const addUsers = async (req, res) => {
+// Create a new user
+export const createUser = async (req, res) => {
+  const userData = req.body;
+
   try {
-    let users = req.body;
-
-    // Check if `users` is an object, and not an array
-    if (!Array.isArray(users)) {
-      users = [users]; // Wrap the single object in an array
-    }
-
-    // Check if the array is not empty
-    if (users.length === 0) {
-      return res.status(400).json({ error: 'No user data provided.' });
-    }
-
-    // Insert multiple users into the database
-    await User.insertMany(users, { ordered: true });
-
-    res.status(201).json({ message: 'Users created successfully' });
+    const newUser = new User(userData);
+    await newUser.save();
+    res.status(201).json(newUser);
   } catch (error) {
-    console.error('Error creating users:', error);
-
-    if (error.name === 'ValidationError') {
-      return res.status(400).json({ error: 'Validation failed. Please check your input data.' });
-    } else if (error.code === 11000) { // Duplicate key error
-      return res.status(400).json({ error: 'Duplicate key error. Please ensure usernames and emails are unique.' });
-    }
-
-    res.status(500).json({ error: 'An error occurred while creating users.' });
+    console.error('Error creating user:', error);
+    res.status(500).json({ message: 'Error creating user', error });
   }
 };
 
+// Update a user
+export const updateUser = async (req, res) => {
+  const { id } = req.params;
+  const updateData = req.body;
 
-  export const delUser = async (req, res) => {
-    try {
-      const { username } = req.body; // Get username from the request body
-  
-      if (!username) {
-        return res.status(400).json({ error: 'Username is required.' }); // Bad request if username is not provided
-      }
-  
-      // Find the user by username
-      const user = await User.findOne({ username });
-  
-      if (!user) {
-        return res.status(404).json({ error: 'User not found.' }); // Not found if user does not exist
-      }
-  
-      // Delete the user
-      await User.deleteOne({ username });
-  
-      res.status(200).json({ message: 'User deleted successfully' }); // Confirm deletion
-    } catch (error) {
-      console.error('Error fetching and deleting user:', error); // Log error for debugging
-      res.status(500).json({ error: 'An error occurred while fetching and deleting the user.' });
+  try {
+    const updatedUser = await User.findByIdAndUpdate(id, updateData, { new: true });
+    if (!updatedUser) {
+      return res.status(404).json({ message: 'User not found' });
     }
-  };
-  
+    res.status(200).json(updatedUser);
+  } catch (error) {
+    console.error('Error updating user:', error);
+    res.status(500).json({ message: 'Error updating user', error });
+  }
+};
 
-  
+// Delete a user by ID and also delete associated playlists
+export const deleteUserById = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const user = await User.findById(id);
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Delete associated playlists
+    await Playlist.deleteMany({ _id: { $in: user.playlists } });
+
+    // Delete the user
+    await User.findByIdAndDelete(id);
+
+    res.status(200).json({ message: 'User and associated playlists deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting user:', error);
+    res.status(500).json({ error: 'An error occurred while deleting the user' });
+  }
+};

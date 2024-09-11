@@ -1,11 +1,10 @@
-
 import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema({
   username: {
     type: String,
     required: true,
-    unique: true // Ensure usernames are unique
+    unique: true
   },
   password: {
     type: String,
@@ -13,18 +12,19 @@ const userSchema = new mongoose.Schema({
   },
   contact_no: {
     type: String,
-    required: true // Optional field
+    required: true
   },
   email: {
     type: String,
-    required: true, // Optional field
-    unique: true // Ensure emails are unique
-  }
+    required: true,
+    unique: true
+  },
+  playlists: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Playlist'
+  }]
 }, {
-  timestamps: true //  adds createdAt and updatedAt fields
+  timestamps: true
 });
-
-// Create the User model
- 
 
 export default mongoose.model('User', userSchema);

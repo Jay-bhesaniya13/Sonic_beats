@@ -21,11 +21,10 @@ const adminSchema = new mongoose.Schema({
   },
   playlists: [{ 
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Playlist' // Reference to the Playlist collection
+    ref: 'Playlist'
   }]
 }, {
-  timestamps: true // Automatically adds createdAt and updatedAt fields
+  timestamps: true
 });
 
-// Create the Admin model
 export default mongoose.model('Admin', adminSchema);

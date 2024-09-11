@@ -26,10 +26,7 @@ const musicSchema = new mongoose.Schema({
     required: true,
   }
 }, {
-  timestamps: true // Adds createdAt and updatedAt fields
+  timestamps: true
 });
 
-// Create the Music model
-const Music = mongoose.model('Music', musicSchema);
-
-export default Music;
+export default mongoose.model('Music', musicSchema);
