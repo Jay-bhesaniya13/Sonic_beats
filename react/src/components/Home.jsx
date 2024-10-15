@@ -4,11 +4,24 @@ import '../App.css';
 import MusicCard from './MusicCard';
 
 const Home = () => {
-    const [musicData, setMusicData] = useState([]); // Initialize as an empty array
+    const [musicData, setMusicData] = useState([]);
+    const [isPlaying, setIsPlaying] = useState(false);
+    const [currentTrack, setCurrentTrack] = useState(null);
+    const [currentTime, setCurrentTime] = useState(0);
+    const [duration, setDuration] = useState(0);
+    const [currentIndex, setCurrentIndex] = useState(0);
     const navigate = useNavigate();
-    
+
     const handleLoginClick = () => {
-        navigate('/login'); // Navigate to the Login page
+        navigate('/login');
+    };
+
+    const shuffleArray = (array) => {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
     };
 
     const fetchMusic = async () => {
@@ -18,7 +31,9 @@ const Home = () => {
                 throw new Error('Network response was not ok');
             }
             const data = await response.json();
-            setMusicData(data);
+            // Shuffle the music data
+            const shuffledData = shuffleArray(data);
+            setMusicData(shuffledData);
         } catch (error) {
             console.error('Error fetching music data:', error);
         }
@@ -27,6 +42,53 @@ const Home = () => {
     useEffect(() => {
         fetchMusic();
     }, []);
+
+    const handleMusicCardClick = (music, index) => {
+        const audioPlayer = document.getElementById('audioPlayer');
+        audioPlayer.src = `/assets/${music.filePath}`;
+        audioPlayer.play();
+        setIsPlaying(true);
+        setCurrentTrack(music);
+        setCurrentIndex(index);
+    };
+
+    const togglePlayPause = () => {
+        const audioPlayer = document.getElementById('audioPlayer');
+        if (isPlaying) {
+            audioPlayer.pause();
+        } else {
+            audioPlayer.play();
+        }
+        setIsPlaying(!isPlaying);
+    };
+
+    const onTimeUpdate = () => {
+        const audioPlayer = document.getElementById('audioPlayer');
+        setCurrentTime(audioPlayer.currentTime);
+        setDuration(audioPlayer.duration);
+    };
+
+    const handleSeek = (event) => {
+        const audioPlayer = document.getElementById('audioPlayer');
+        const seekTime = (event.target.value / 100) * duration;
+        audioPlayer.currentTime = seekTime;
+        setCurrentTime(seekTime);
+    };
+
+    const handleSongEnd = () => {
+        const nextIndex = currentIndex + 1;
+        if (nextIndex < musicData.length) {
+            handleMusicCardClick(musicData[nextIndex], nextIndex);
+        } else {
+            setIsPlaying(false);
+        }
+    };
+
+    const formatTime = (time) => {
+        const minutes = Math.floor(time / 60);
+        const seconds = Math.floor(time % 60);
+        return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+    };
 
     return (
         <div>
@@ -51,31 +113,50 @@ const Home = () => {
             </div>
             <div className="main-content">
                 <h3>Trending Music</h3>
-                <div>
-                    {musicData.length > 0 ? ( // Check if musicData has items
-                        musicData.map((music) => (
-                            <MusicCard key={music._id} music={music} />
+                <div className="music-card-par">
+                    {musicData.length > 0 ? (
+                        musicData.map((music, index) => (
+                            <MusicCard 
+                                key={music._id} 
+                                music={music} 
+                                onClick={() => handleMusicCardClick(music, index)} 
+                            />
                         ))
                     ) : (
-                        <p>No music available.</p> // Message if no music is fetched
+                        <p>No music available.</p>
                     )}
                 </div>
             </div>
             <div className="center">
                 <div className="music-player">
-                    <audio id="audioPlayer">
-                        <source src="your_audio_file.mp3" type="audio/mpeg" />
+                    <audio 
+                        id="audioPlayer" 
+                        onTimeUpdate={onTimeUpdate} 
+                        onEnded={handleSongEnd}
+                    >
+                        <source src="" type="audio/mpeg" />
                         Your browser does not support the audio element.
                     </audio>
                     <div className="player-controls">
-                        <button id="playPauseBtn">Play</button>
-                        <input type="range" id="seekSlider" value="0" max="100" />
-                        <span id="currentTime">0:00</span> / <span id="duration">0:00</span>
+                        <button id="playPauseBtn" onClick={togglePlayPause}>
+                            {isPlaying ? 'Pause' : 'Play'}
+                        </button>
+                        <input 
+                            type="range" 
+                            id="seekSlider" 
+                            value={duration ? (currentTime / duration) * 100 : 0} 
+                            onChange={handleSeek} 
+                        />
+                        <span id="currentTime">{formatTime(currentTime)}</span> 
+                        / 
+                        <span id="duration">{formatTime(duration)}</span>
                     </div>
                 </div>
             </div>
         </div>
     );
 };
+
+
 
 export default Home;

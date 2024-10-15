@@ -22,7 +22,7 @@ function Login() {
             const user = users.find(user => user.username === username && user.password === password);
 
             if (user) {
-                navigate('/home');
+                navigate('/');  //navigate to home page (Home.jsx)
             } else {
                 alert('Invalid username or password!');
             }

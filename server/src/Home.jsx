@@ -54,23 +54,8 @@ function Home() {
         <h3>Trending Music</h3>
         <div className="music-card-par">
 
-
-
-          {/* {Array(5).fill(null).map((_, index) => (
-            <div className="music-card" key={index}>
-              <img src="./assets/abc.jpg" alt="Music Image" className="music-image" />
-              <div className="music-details">
-                <h2>Music Title</h2>
-                <p>Artist Name</p>
-                <p>Album Name</p>
-              </div>
-            </div>
-          )
-          )} */}
-          
           {musicData.map((music) => {
-                    // Construct full paths for music files and images
-                    const fullMusicImgPath = basePath + music.musicImg;
+                     const fullMusicImgPath = basePath + music.musicImg;
                     const fullFilePath = basePath + music.filePath;
              
                     <div className="music-card" key={music._id}>

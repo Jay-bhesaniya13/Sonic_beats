@@ -1,7 +1,7 @@
 import React from "react";
 import Dashboard from "./components/Dashboard";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Login from './components/login';
+import Login from './components/Login';
 import Register from './components/Register'
 import MusicList from "./components/musicList";
 import Home from "./components/Home";
@@ -17,7 +17,7 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/Admin" element={<Admin />} />
-      </Routes>
+       </Routes>
     </Router>
     
   )
