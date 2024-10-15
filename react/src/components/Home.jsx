@@ -2,9 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../App.css';
 import MusicCard from './MusicCard';
+import { FaSearch } from 'react-icons/fa';  // Importing search icon from react-icons
 
 const Home = () => {
     const [musicData, setMusicData] = useState([]);
+    const [filteredMusic, setFilteredMusic] = useState([]); // State for filtered music
+    const [searchTerm, setSearchTerm] = useState(''); // State for the search term
+    const [showSearch, setShowSearch] = useState(false); // State to toggle the search input
     const [isPlaying, setIsPlaying] = useState(false);
     const [currentTrack, setCurrentTrack] = useState(null);
     const [currentTime, setCurrentTime] = useState(0);
@@ -31,9 +35,9 @@ const Home = () => {
                 throw new Error('Network response was not ok');
             }
             const data = await response.json();
-            // Shuffle the music data
             const shuffledData = shuffleArray(data);
             setMusicData(shuffledData);
+            setFilteredMusic(shuffledData); // Set filtered data to all music initially
         } catch (error) {
             console.error('Error fetching music data:', error);
         }
@@ -77,8 +81,8 @@ const Home = () => {
 
     const handleSongEnd = () => {
         const nextIndex = currentIndex + 1;
-        if (nextIndex < musicData.length) {
-            handleMusicCardClick(musicData[nextIndex], nextIndex);
+        if (nextIndex < filteredMusic.length) {
+            handleMusicCardClick(filteredMusic[nextIndex], nextIndex);
         } else {
             setIsPlaying(false);
         }
@@ -90,10 +94,25 @@ const Home = () => {
         return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
     };
 
+    // Handle search toggle and functionality
+    const handleSearchIconClick = () => {
+        setShowSearch(!showSearch);  // Toggle search input visibility
+    };
+
+    const handleSearch = (e) => {
+        e.preventDefault();
+        const filtered = musicData.filter((music) =>
+            music.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            music.artist.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        setFilteredMusic(filtered);
+        setShowSearch(false); // Hide search input after search is submitted
+    };
+
     return (
         <div>
             <div id="mySidepanel" className="sidepanel">
-                <button onClick={handleLoginClick}>Login</button>
+                <button onClick={handleLoginClick} className="panel-login-button">Login</button>
                 <a href="#">Menu</a>
                 <ul className="panel-list">
                     <li>Genre</li>
@@ -111,15 +130,42 @@ const Home = () => {
                 <a href="#">Playlist</a>
                 <a href="#">Contact</a>
             </div>
+
             <div className="main-content">
+
+                <div className="search-container">
+                    <FaSearch
+                        onClick={handleSearchIconClick}
+                        className="search-icon"
+                        style={{ fontSize: '24px', cursor: 'pointer' }}
+                    />
+                </div>
+
+                {/* Centered Search Bar */}
+                {showSearch && (
+                    <div className="search-bar-centered">
+                        <form onSubmit={handleSearch}>
+                            <input
+                                type="text"
+                                placeholder="Search for music..."
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                className="search-input"
+                            />
+                            <button type="submit" className="search-button">Search</button>
+                        </form>
+                    </div>
+                )}
+
                 <h3>Trending Music</h3>
+
                 <div className="music-card-par">
-                    {musicData.length > 0 ? (
-                        musicData.map((music, index) => (
-                            <MusicCard 
-                                key={music._id} 
-                                music={music} 
-                                onClick={() => handleMusicCardClick(music, index)} 
+                    {filteredMusic.length > 0 ? (
+                        filteredMusic.map((music, index) => (
+                            <MusicCard
+                                key={music._id}
+                                music={music}
+                                onClick={() => handleMusicCardClick(music, index)}
                             />
                         ))
                     ) : (
@@ -127,11 +173,18 @@ const Home = () => {
                     )}
                 </div>
             </div>
+
             <div className="center">
                 <div className="music-player">
-                    <audio 
-                        id="audioPlayer" 
-                        onTimeUpdate={onTimeUpdate} 
+                    {currentTrack && (
+                        <div className="current-track-title">
+                            <h5>Track: {currentTrack.title}</h5>
+                            <p>Artist: {currentTrack.artist}</p>
+                        </div>
+                    )}
+                    <audio
+                        id="audioPlayer"
+                        onTimeUpdate={onTimeUpdate}
                         onEnded={handleSongEnd}
                     >
                         <source src="" type="audio/mpeg" />
@@ -141,14 +194,14 @@ const Home = () => {
                         <button id="playPauseBtn" onClick={togglePlayPause}>
                             {isPlaying ? 'Pause' : 'Play'}
                         </button>
-                        <input 
-                            type="range" 
-                            id="seekSlider" 
-                            value={duration ? (currentTime / duration) * 100 : 0} 
-                            onChange={handleSeek} 
+                        <input
+                            type="range"
+                            id="seekSlider"
+                            value={duration ? (currentTime / duration) * 100 : 0}
+                            onChange={handleSeek}
                         />
-                        <span id="currentTime">{formatTime(currentTime)}</span> 
-                        / 
+                        <span id="currentTime">{formatTime(currentTime)}</span>
+                        /
                         <span id="duration">{formatTime(duration)}</span>
                     </div>
                 </div>
@@ -156,7 +209,5 @@ const Home = () => {
         </div>
     );
 };
-
-
 
 export default Home;

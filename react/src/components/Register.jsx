@@ -45,60 +45,62 @@ function Register() {
     };
 
     return (
-        <div className="signup-box">
-            <h2>Signup</h2>
-            <form onSubmit={handleSignUpSubmit}>
-                <input
-                    type="text"
-                    placeholder="Username"
-                    name="username"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                />
-                <input
-                    type="email"
-                    placeholder="Email"
-                    name="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                />
-                <input
-                    type="text"
-                    placeholder="Contact No."
-                    name="contactNo"
-                    value={contactNo}
-                    onChange={(e) => setContactNo(e.target.value)}
-                />
-                <div className="password-input-wrapper">
+        <div className="signup-container">
+            <div className="signup-box">
+                <h2>Signup</h2>
+                <form onSubmit={handleSignUpSubmit}>
                     <input
-                        type={showPassword ? 'text' : 'password'} // Toggle between text and password
-                        placeholder="Password"
-                        name="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        type="text"
+                        placeholder="Username"
+                        name="username"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
                     />
-                </div>
-                <div className="password-input-wrapper">
                     <input
-                        type={showPassword ? 'text' : 'password'} // Toggle between text and password
-                        placeholder="Confirm Password"
-                        name="confirm-password"
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        type="email"
+                        placeholder="Email"
+                        name="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                     />
-                </div>
-                {/* Single checkbox to toggle both passwords */}
-                <div className="checkbox-container">
                     <input
-                        type="checkbox"
-                        id="show-password"
-                        checked={showPassword}
-                        onChange={() => setShowPassword(!showPassword)}
+                        type="text"
+                        placeholder="Contact No."
+                        name="contactNo"
+                        value={contactNo}
+                        onChange={(e) => setContactNo(e.target.value)}
                     />
-                    <label htmlFor="show-password">Show Passwords</label>
-                </div>
-                <button type="submit">Sign Up</button>
-            </form>
+                    <div className="password-input-wrapper">
+                        <input
+                            type={showPassword ? 'text' : 'password'} // Toggle between text and password
+                            placeholder="Password"
+                            name="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
+                    </div>
+                    <div className="password-input-wrapper">
+                        <input
+                            type={showPassword ? 'text' : 'password'} // Toggle between text and password
+                            placeholder="Confirm Password"
+                            name="confirm-password"
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
+                        />
+                    </div>
+                    {/* Single checkbox to toggle both passwords */}
+                    <div className="checkbox-container">
+                        <input
+                            type="checkbox"
+                            id="show-password"
+                            checked={showPassword}
+                            onChange={() => setShowPassword(!showPassword)}
+                        />
+                        <label htmlFor="show-password">Show Passwords</label>
+                    </div>
+                    <button type="submit">Sign Up</button>
+                </form>
+            </div>
         </div>
     );
 }

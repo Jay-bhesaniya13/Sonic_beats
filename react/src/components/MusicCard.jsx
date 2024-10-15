@@ -18,7 +18,7 @@ const MusicCard = ({ music, onClick }) => {
                 <p>Artist: {music.artist}</p>
                 <p>Duration: {music.duration} s</p>
             </div>
-        </div>
+         </div>
     );
 };
 

@@ -22,7 +22,7 @@ function Login() {
             const user = users.find(user => user.username === username && user.password === password);
 
             if (user) {
-                navigate('/');  //navigate to home page (Home.jsx)
+                navigate('/');  // Navigate to home page (Home.jsx)
             } else {
                 alert('Invalid username or password!');
             }
@@ -38,38 +38,40 @@ function Login() {
     };
 
     return (
-        <div className="login-box">
-            <h2>Login</h2>
-            <form onSubmit={handleLoginSubmit}>
-                <input
-                    type="text"
-                    placeholder="Username"
-                    name="username"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                />
-                <input
-                    type={showPassword ? 'text' : 'password'} // Toggle between text and password
-                    placeholder="Password"
-                    name="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                />
-                {/* Checkbox to toggle password visibility */}
-                <div className="checkbox-container">
+        <div className="login-container">
+            <div className="login-box">
+                <h2>Login</h2>
+                <form onSubmit={handleLoginSubmit}>
                     <input
-                        type="checkbox"
-                        id="show-password-checkbox"
-                        checked={showPassword}
-                        onChange={handleCheckboxChange}
+                        type="text"
+                        placeholder="Username"
+                        name="username"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
                     />
-                    <label htmlFor="show-password-checkbox" >Show Password</label>
-                </div>
-                <button type="submit">Login</button>
-                <button type="button" onClick={handleRegisterClick}>
-                    Don't have an account? Register
-                </button>
-            </form>
+                    <input
+                        type={showPassword ? 'text' : 'password'} // Toggle between text and password
+                        placeholder="Password"
+                        name="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                    {/* Checkbox to toggle password visibility */}
+                    <div className="checkbox-container">
+                        <input
+                            type="checkbox"
+                            id="show-password-checkbox"
+                            checked={showPassword}
+                            onChange={handleCheckboxChange}
+                        />
+                        <label htmlFor="show-password-checkbox">Show Password</label>
+                    </div>
+                    <button type="submit">Login</button>
+                    <button type="button" onClick={handleRegisterClick}>
+                        Don't have an account? Register
+                    </button>
+                </form>
+            </div>
         </div>
     );
 }

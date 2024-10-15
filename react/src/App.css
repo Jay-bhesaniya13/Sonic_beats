@@ -72,6 +72,14 @@ body {
 
 
 /************************** Login css start ***************************/
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Use 100% of the viewport height */
+}
+
 .login-box {
   background-color: black;
   padding: 30px;
@@ -129,6 +137,13 @@ body {
 
 
 /************************* Register CSS Start**************************************/
+
+.signup-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Use 100% of the viewport height */
+}
 
 .signup-box {
   background-color: black;
@@ -217,14 +232,14 @@ body {
 .form-group input[type="text"],
 .form-group input[type="number"],
 .form-group input[type="file"] {
-  width: calc(100% - 20px); /* Decrease width to account for right margin */
+  width: calc(100% - 20px); 
   padding: 12px;
   font-size: 1.1em;
-  border: 1px solid #555555; /* Grey borders for inputs */
+  border: 1px solid #555555; 
   border-radius: 5px;
   margin-top: 7px;
-  background-color: #444444; /* Dark grey input background */
-  color: #ffffff; /* White text in inputs */
+  background-color: #444444;  
+  color: #ffffff;  
 }
 
 /* Remove the number input controls */
@@ -243,29 +258,29 @@ input[type="number"] {
 }
 
 .submit-button {
-  width: calc(50% - 20px); /* Reduced width to half of the form width */
-  padding: 12px; /* Keep padding consistent */
-  font-size: 1.2em; /* Slightly adjust font size if necessary */
-  background-color: rgba(75, 223, 228, 0.979); /* Aqua button background */
+  width: calc(50% - 20px);  
+  padding: 12px;  
+  font-size: 1.2em;  
+  background-color: rgba(75, 223, 228, 0.979);  
   border: none;
   color: white;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
-  margin: 0 auto; /* Center the button */
-  display: block; /* Make it a block element */
+  margin: 0 auto;  
+  display: block;  
 }
 
 
 .submit-button:hover {
-  background-color: rgba(62, 185, 189, 0.979); /* Darker aqua on hover */
-  transform: translateY(-2px); /* Slight hover effect */
+  background-color: rgba(62, 185, 189, 0.979); 
+  transform: translateY(-2px);  
 }
 
 @media (max-width: 768px) {
   .admin-panel {
     padding: 20px;
-    max-width: 90%; /* Responsive size for smaller screens */
+    max-width: 90%;  
   }
 
   .submit-button {
@@ -349,9 +364,120 @@ input[type="number"] {
   color: #e6e6e6;
 }
 
+.current-track-title {
+  margin-bottom: 5px; /* Adjust this value to your liking */
+  color: white; /* Optional: Change color to match your theme */
+}
+
+
 
 /**************************** music audio controller css end  *****************************/
 
+
+/**************************** Side Panel Css Start **************************/
+
+
+.sidepanel {
+  width: 250px;
+  border-radius: 2vw;
+  position: fixed;
+  z-index: 1;
+  height: 92%;
+  top: 0;
+  left: 0;
+  margin: .5vw;
+  background-color: #252727;
+  overflow-y: auto;
+  padding-top: 60px;
+  transition: 0.5s;
+  text-align: center;
+}
+
+.sidepanel a {
+  display: block;
+  padding: 8px;
+  text-decoration: none;
+  font-size: 25px;
+  color: white;
+  transition: 0.3s;
+}
+
+
+.panel-login-button  {
+  background-color: #66ccdf;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  margin: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.panel-login-button:hover {
+  background-color: #5bb5c9;
+}
+
+
+
+.sidepanel a:hover {
+  color: #66ccdf;
+  text-shadow: 10px 1px 28px rgba(75, 223, 228, 0.979);
+}
+
+.panel-list {
+  padding: 0;
+  list-style: none;
+}
+
+.panel-list li {
+  margin: 1vw 0;
+  color: rgb(151, 161, 170);
+}
+
+.panel-list li:hover {
+  color: rgb(61, 188, 192);
+  text-shadow: 10px 1px 25px rgba(75, 223, 228, 0.938);
+}
+
+/**************************** Side Panel Css End **************************/
+
+/**************************** Search bar Panel Css End **************************/
+/* App.css */
+.search-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+  margin-right: 20px;
+}
+
+.search-bar-centered {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.search-input {
+  padding: 10px;
+  width: 300px;
+  font-size: 1em;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-right: 10px;
+}
+
+.search-button {
+  padding: 10px 20px;
+  font-size: 1em;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+}
+
+
+
+/**************************** Search bar Panel Css End **************************/
 
 /**************************** Main Content Css Start **************************/
 

@@ -3,7 +3,8 @@ import mongoose from 'mongoose';
 const musicSchema = new mongoose.Schema({
   title: {
     type: String,
-    required: true,
+    unique: true,
+    required: true
   },
   artist: {
     type: String,
@@ -24,6 +25,10 @@ const musicSchema = new mongoose.Schema({
   genre: {
     type: String,
     required: true,
+  },
+  like: {
+    type: Number,
+    default: 0,  // Initialize with 0
   }
 }, {
   timestamps: true
