@@ -30,11 +30,13 @@ export const getPlaylistById = async (req, res) => {
 export const createPlaylist = async (req, res) => {
   const { name, description, songs, user } = req.body;
   try {
+    // Find the user to ensure they exist
     const foundUser = await User.findById(user);
     if (!foundUser) {
       return res.status(404).json({ message: 'User not found' });
     }
 
+    // Create a new playlist
     const playlist = new Playlist({
       name,
       description,
@@ -42,12 +44,21 @@ export const createPlaylist = async (req, res) => {
       user,
     });
 
+    // Save the new playlist
     await playlist.save();
+
+    console.log(playlist._id)
+
+    // Add the new playlist's ID to the user's playlists array
+    foundUser.playlists.push(playlist._id);
+    await foundUser.save();
+
     res.status(201).json(playlist);
   } catch (error) {
     res.status(500).json({ message: 'Error creating playlist', error });
   }
 };
+
 
 // Update playlist by ID
 export const updatePlaylistById = async (req, res) => {

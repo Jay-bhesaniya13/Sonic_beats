@@ -365,9 +365,10 @@ input[type="number"] {
 }
 
 .current-track-title {
-  margin-bottom: 5px; /* Adjust this value to your liking */
-  color: white; /* Optional: Change color to match your theme */
+  margin-bottom: 5px; 
+  color: white;  
 }
+
 
 
 

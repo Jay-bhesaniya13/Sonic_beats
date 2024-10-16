@@ -1,24 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../App.css';
-import MusicCard from './MusicCard';
-import { FaSearch } from 'react-icons/fa';  // Importing search icon from react-icons
+import MainContent from './MainContent';
+import MusicPlayer from './MusicPlayer';
+import SidePanel from './Sidepanel';
+import { useAuth } from '../AuthContext'; // Import useAuth to access login/logout
 
 const Home = () => {
     const [musicData, setMusicData] = useState([]);
-    const [filteredMusic, setFilteredMusic] = useState([]); // State for filtered music
-    const [searchTerm, setSearchTerm] = useState(''); // State for the search term
-    const [showSearch, setShowSearch] = useState(false); // State to toggle the search input
+    const [filteredMusic, setFilteredMusic] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [showSearch, setShowSearch] = useState(false);
     const [isPlaying, setIsPlaying] = useState(false);
     const [currentTrack, setCurrentTrack] = useState(null);
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(0);
     const [currentIndex, setCurrentIndex] = useState(0);
+    const [userData, setUserData] = useState(null); // State to hold user data
     const navigate = useNavigate();
-
-    const handleLoginClick = () => {
-        navigate('/login');
-    };
+    const { logout } = useAuth(); // Get logout function from AuthContext
 
     const shuffleArray = (array) => {
         for (let i = array.length - 1; i > 0; i--) {
@@ -37,16 +37,35 @@ const Home = () => {
             const data = await response.json();
             const shuffledData = shuffleArray(data);
             setMusicData(shuffledData);
-            setFilteredMusic(shuffledData); // Set filtered data to all music initially
+            setFilteredMusic(shuffledData);
         } catch (error) {
             console.error('Error fetching music data:', error);
         }
     };
 
     useEffect(() => {
+        const token = localStorage.getItem('token');
+        console.log(token)
+        const storedUserData = localStorage.getItem('userData');
+    
+        if (storedUserData) {
+            try {
+                console.log(storedUserData)
+                const user = JSON.parse(storedUserData);
+                setUserData(user);
+            } catch (error) {
+                console.error('Failed to parse user data:', error);
+                localStorage.removeItem('userData'); // Clear invalid data
+            }
+        }
+    
+        if (!token) {
+            navigate('/login'); // Redirect to login if not authenticated
+        }
+        
         fetchMusic();
-    }, []);
-
+    }, [navigate]);
+    
     const handleMusicCardClick = (music, index) => {
         const audioPlayer = document.getElementById('audioPlayer');
         audioPlayer.src = `/assets/${music.filePath}`;
@@ -94,9 +113,8 @@ const Home = () => {
         return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
     };
 
-    // Handle search toggle and functionality
     const handleSearchIconClick = () => {
-        setShowSearch(!showSearch);  // Toggle search input visibility
+        setShowSearch(!showSearch);
     };
 
     const handleSearch = (e) => {
@@ -106,106 +124,61 @@ const Home = () => {
             music.artist.toLowerCase().includes(searchTerm.toLowerCase())
         );
         setFilteredMusic(filtered);
-        setShowSearch(false); // Hide search input after search is submitted
+        setShowSearch(false);
     };
+
+    const handleLogout = () => {
+        logout(); // Call the logout function from context
+        navigate('/login'); // Redirect to login page
+    };
+
+    const trendingMusic = filteredMusic.slice(0, 7);
+    const bhajanMusic = filteredMusic.filter(music => music.genre === 'Bhajan');
+    const popMusic = filteredMusic.filter(music => music.genre === 'Pop' || music.genre === 'Party');
+    const aartiMusic = filteredMusic.filter(music => music.genre === 'Aarti');
 
     return (
         <div>
-            <div id="mySidepanel" className="sidepanel">
-                <button onClick={handleLoginClick} className="panel-login-button">Login</button>
-                <a href="#">Menu</a>
-                <ul className="panel-list">
-                    <li>Genre</li>
-                    <li>Explore</li>
-                    <li>Albums</li>
-                    <li>Artist</li>
-                </ul>
-                <a href="#">Library</a>
-                <ul className="panel-list">
-                    <li>Recent</li>
-                    <li>Albums</li>
-                    <li>Favorites</li>
-                    <li>Local</li>
-                </ul>
-                <a href="#">Playlist</a>
-                <a href="#">Contact</a>
-            </div>
+            <SidePanel />
 
-            <div className="main-content">
-
-                <div className="search-container">
-                    <FaSearch
-                        onClick={handleSearchIconClick}
-                        className="search-icon"
-                        style={{ fontSize: '24px', cursor: 'pointer' }}
-                    />
+            {/* User Information Display */}
+            {userData && (
+                <div className="user-info">
+                    <h3>Welcome, {userData.username}!</h3> {/* Display username */}
+                    <p>Email: {userData.email}</p> {/* Display email */}
+                    <p>Contact Number: {userData.contact_no}</p> {/* Display contact number */}
                 </div>
+            )}
 
-                {/* Centered Search Bar */}
-                {showSearch && (
-                    <div className="search-bar-centered">
-                        <form onSubmit={handleSearch}>
-                            <input
-                                type="text"
-                                placeholder="Search for music..."
-                                value={searchTerm}
-                                onChange={(e) => setSearchTerm(e.target.value)}
-                                className="search-input"
-                            />
-                            <button type="submit" className="search-button">Search</button>
-                        </form>
-                    </div>
-                )}
+            {/* Logout Button */}
+            <button onClick={handleLogout}>Logout</button>
 
-                <h3>Trending Music</h3>
+            {/* Main Content Area */}
+            <MainContent
+                trendingMusic={trendingMusic}
+                bhajanMusic={bhajanMusic}
+                popMusic={popMusic}
+                aartiMusic={aartiMusic}
+                showSearch={showSearch}
+                searchTerm={searchTerm}
+                setSearchTerm={setSearchTerm}
+                handleSearch={handleSearch}
+                handleSearchIconClick={handleSearchIconClick}
+                handleMusicCardClick={handleMusicCardClick}
+            />
 
-                <div className="music-card-par">
-                    {filteredMusic.length > 0 ? (
-                        filteredMusic.map((music, index) => (
-                            <MusicCard
-                                key={music._id}
-                                music={music}
-                                onClick={() => handleMusicCardClick(music, index)}
-                            />
-                        ))
-                    ) : (
-                        <p>No music available.</p>
-                    )}
-                </div>
-            </div>
-
-            <div className="center">
-                <div className="music-player">
-                    {currentTrack && (
-                        <div className="current-track-title">
-                            <h5>Track: {currentTrack.title}</h5>
-                            <p>Artist: {currentTrack.artist}</p>
-                        </div>
-                    )}
-                    <audio
-                        id="audioPlayer"
-                        onTimeUpdate={onTimeUpdate}
-                        onEnded={handleSongEnd}
-                    >
-                        <source src="" type="audio/mpeg" />
-                        Your browser does not support the audio element.
-                    </audio>
-                    <div className="player-controls">
-                        <button id="playPauseBtn" onClick={togglePlayPause}>
-                            {isPlaying ? 'Pause' : 'Play'}
-                        </button>
-                        <input
-                            type="range"
-                            id="seekSlider"
-                            value={duration ? (currentTime / duration) * 100 : 0}
-                            onChange={handleSeek}
-                        />
-                        <span id="currentTime">{formatTime(currentTime)}</span>
-                        /
-                        <span id="duration">{formatTime(duration)}</span>
-                    </div>
-                </div>
-            </div>
+            {/* Music Player */}
+            <MusicPlayer
+                currentTrack={currentTrack}
+                isPlaying={isPlaying}
+                togglePlayPause={togglePlayPause}
+                currentTime={currentTime}
+                duration={duration}
+                handleSeek={handleSeek}
+                formatTime={formatTime}
+                onTimeUpdate={onTimeUpdate}
+                handleSongEnd={handleSongEnd}
+            />
         </div>
     );
 };

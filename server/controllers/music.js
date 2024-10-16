@@ -1,4 +1,6 @@
 import Music from '../models/music.js';
+import Playlist from '../models/playlist.js';
+
 
 // Get all music tracks
 export const getAllMusic = async (req, res) => {
@@ -51,15 +53,24 @@ export const updateMusicById = async (req, res) => {
   }
 };
 
-// Delete music by ID
+
+// Delete music by ID and remove it from all playlists
 export const deleteMusicById = async (req, res) => {
   const { id } = req.params;
   try {
+    // Find and delete the music track
     const musicTrack = await Music.findByIdAndDelete(id);
     if (!musicTrack) {
       return res.status(404).json({ message: 'Music track not found' });
     }
-    res.status(200).json({ message: 'Music track deleted successfully' });
+
+    // Remove the deleted track from all playlists
+    await Playlist.updateMany(
+      { songs: id },  // Find playlists that contain this song
+      { $pull: { songs: id } }  // Remove the song from the songs array
+    );
+
+    res.status(200).json({ message: 'Music track and related references deleted successfully' });
   } catch (error) {
     res.status(500).json({ message: 'Error deleting music track', error });
   }

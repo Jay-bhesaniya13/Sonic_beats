@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import "../App.css";
+import { useNavigate } from 'react-router-dom';
 
 function Register() {
     const [username, setUsername] = useState('');
@@ -8,6 +9,9 @@ function Register() {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [contactNo, setContactNo] = useState('');
     const [showPassword, setShowPassword] = useState(false); // Single state for both passwords
+
+
+    const navigate = useNavigate();
 
     const handleSignUpSubmit = async (event) => {
         event.preventDefault();
@@ -36,6 +40,7 @@ function Register() {
 
             if (response.ok) {
                 console.log('Registration successful!');
+                navigate("/")
             } else {
                 console.error('Registration failed.');
             }
