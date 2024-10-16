@@ -15,6 +15,11 @@ const SidePanel = () => {
         logout(); // Call the logout function from context
         navigate('/login'); // Redirect to login page
     };
+    
+    const handlePlaylistClick = () => {
+        navigate('/playlist'); // Navigate to the Playlist page
+    };
+
     return (
         <div id="mySidepanel" className="sidepanel">
              <a href="#">Menu</a>
@@ -34,7 +39,7 @@ const SidePanel = () => {
                 <li>Favorites</li>
                 <li>Local</li>
             </ul>
-            <a href="#">Playlist</a>
+            <a href="#" onClick={handlePlaylistClick} >Playlist</a>
             <a href="#">Contact</a>
         </div>
     );

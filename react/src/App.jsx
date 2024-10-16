@@ -5,6 +5,7 @@ import Register from './components/Register'
  import Home from "./components/Home";
 import Admin from "./components/Admin";
  import SearchResults from "./components/SearchResults";
+import PlayList from "./components/Playlist";
 
 const App = () => {
   
@@ -17,6 +18,7 @@ const App = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/search-results" element={<SearchResults />} />
         <Route path="/Admin" element={<Admin />} />
+        <Route path="/playlist" element={<PlayList />} />
        </Routes>
     </Router>
     

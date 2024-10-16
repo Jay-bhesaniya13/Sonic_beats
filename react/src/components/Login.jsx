@@ -4,12 +4,12 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../AuthContext'; // Make sure to import the AuthContext
 
 function Login({ handleLoginSuccess }) {
-    const [username, setUsername] = useState('');
+    const [username, setUsername] = useState(''); 
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [userData, setUserData] = useState(null); // State to hold user data
     const navigate = useNavigate();
-    const { login } = useAuth(); // Use the AuthContext
+    const { login } = useAuth(); // Use the AuthContext for login management
 
     const handleRegisterClick = () => {
         navigate('/register');
@@ -25,7 +25,7 @@ function Login({ handleLoginSuccess }) {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    email: username,
+                    username: username,  
                     password: password,
                 }),
             });
@@ -33,15 +33,26 @@ function Login({ handleLoginSuccess }) {
             if (response.ok) {
                 const data = await response.json();
                 console.log("Login response:", data);
+                
+                // Storing token and user data in localStorage
                 localStorage.setItem('userData', JSON.stringify(data.user));
                 localStorage.setItem('token', data.token);
-                login(data.token); // Log in the user
-                setUserData(data.user); // Update user data in state
-                // handleLoginSuccess(); // Notify the parent about the successful login
-                navigate("/"); // Redirect to home
+
+                // Notify the auth context of login
+                login(data.token);
+
+                // Update the local state
+                setUserData(data.user);
+
+                // Optionally call the parent's login success handler
+                if (handleLoginSuccess) handleLoginSuccess();
+
+                // Navigate to the home page
+                navigate('/');
             } else {
                 const errorData = await response.json();
-                alert(errorData.msg || 'Login failed, please try again');
+                // Show a user-friendly message
+                alert(errorData.msg || 'Login failed, please try again.');
             }
         } catch (error) {
             console.error('Error during login:', error);
@@ -49,7 +60,6 @@ function Login({ handleLoginSuccess }) {
         }
     };
     
-
     const handleCheckboxChange = () => {
         setShowPassword(!showPassword);
     };
@@ -70,6 +80,7 @@ function Login({ handleLoginSuccess }) {
         <div className="login-container">
             <div className="login-box">
                 <h2>Login</h2>
+
                 {userData && ( // Conditionally render user data if it exists
                     <div>
                         <h3>Welcome, {userData.username}!</h3> {/* Display username */}
@@ -77,10 +88,11 @@ function Login({ handleLoginSuccess }) {
                         <p>Contact Number: {userData.contact_no}</p> {/* Display contact number */}
                     </div>
                 )}
+
                 <form onSubmit={handleLoginSubmit}>
                     <input
                         type="text"
-                        placeholder="Username"
+                        placeholder="Username" 
                         name="username"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
