@@ -48,26 +48,34 @@ body {
   transition: 0.3s;
 }
 
-.sidepanel a:hover {
+.sidepanel h3 {
+  display: block;
+  padding: 8px;
+  text-decoration: none;
+  font-size: 25px;
+  color: white;
+  transition: 0.3s;
+}
+
+.sidepanel h3:hover {
   color: #66ccdf;
   text-shadow: 10px 1px 28px rgba(75, 223, 228, 0.979);
 }
 
-.panel-list {
-  padding: 0;
-  list-style: none;
-}
 
-.panel-list li {
-  margin: 1vw 0;
-  color: rgb(151, 161, 170);
+.sidepanel button
+{
+  
+    background-color: #e8834d;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+  
 }
-
-.panel-list li:hover {
-  color: rgb(61, 188, 192);
-  text-shadow: 10px 1px 25px rgba(75, 223, 228, 0.938);
-}
-
+ 
 /**************************** Side Panel css start ****************************/
 
 

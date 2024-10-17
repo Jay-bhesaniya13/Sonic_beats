@@ -154,12 +154,14 @@ const MainContent = ({
                     <h3>Trending Music</h3>
                     <div className="music-card-par">
                         {trendingMusic.map((music, index) => (
-                            <MusicCard
-                                key={music._id}
-                                music={music}
-                                onClick={() => handleMusicCardClick(music, index)}
-                                onAddSong={() => handleAddSongToPlaylist(music._id)}
-                            />
+                          <MusicCard
+                          key={music._id}
+                          music={music}
+                          onCardClick={() => handleMusicCardClick(music, index)} // Pass the click handler
+                          onAddSong={() => handleAddSongToPlaylist(music._id)}
+                      />
+                      
+                       
                         ))}
                     </div>
                 </>

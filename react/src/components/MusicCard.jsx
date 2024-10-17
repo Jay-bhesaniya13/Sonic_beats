@@ -1,14 +1,14 @@
 import React from 'react';
-import { FaPlus } from 'react-icons/fa'; // Import FontAwesome plus icon
+import { FaPlus, FaMinus } from 'react-icons/fa'; // Import FontAwesome plus and minus icons
 
-const MusicCard = ({ music, onAddSong }) => {
+const MusicCard = ({ music, onAddSong, buttonContent, onCardClick }) => {
     if (!music) return null;
 
     const basePath = "/assets/";
     const fullMusicImgPath = basePath + music.musicImg;
 
     return (
-        <div className="music-card">
+        <div className="music-card" onClick={onCardClick}> {/* Add onClick here */}
             <img 
                 src={fullMusicImgPath} 
                 alt={`${music.title} cover`} 
@@ -19,12 +19,15 @@ const MusicCard = ({ music, onAddSong }) => {
                 <p>Artist: {music.artist}</p>
                 <p>Duration: {music.duration} s</p>
             </div>
-            {/* Add + icon button */}
-            <button className="add-song-btn" onClick={() => onAddSong(music._id)}>
-                <FaPlus /> {/* Plus icon */}
+            <button className="add-song-btn" onClick={(e) => {
+                e.stopPropagation(); // Prevent triggering card click when adding song
+                onAddSong(music._id);
+            }}>
+                {buttonContent === '-' ? <FaMinus /> : <FaPlus />}
             </button>
         </div>
     );
 };
+
 
 export default MusicCard;

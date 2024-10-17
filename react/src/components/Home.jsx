@@ -69,6 +69,7 @@ const Home = () => {
     
     const handleMusicCardClick = (music, index) => {
         const audioPlayer = document.getElementById('audioPlayer');
+        console.log("123")
         audioPlayer.src = `/assets/${music.filePath}`;
         audioPlayer.play();
         setIsPlaying(true);

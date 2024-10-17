@@ -19,28 +19,25 @@ const SidePanel = () => {
     const handlePlaylistClick = () => {
         navigate('/playlist'); // Navigate to the Playlist page
     };
+    const handleContactClick = () => {
+        navigate('/contact'); // Navigate to the Playlist page
+    };
+    const handleSettingsClick = () => {
+        navigate('/settings'); // Navigate to the Settings page
+    };
 
     return (
         <div id="mySidepanel" className="sidepanel">
-             <a href="#">Menu</a>
-             <button onClick={handleLogout} style={{ margin: '20px', padding: '10px' }}>
+             
+             <button onClick={handleLogout} >
                 Logout
             </button>
-            <ul className="panel-list">
-                <li>Genre</li>
-                <li>Explore</li>
-                <li>Albums</li>
-                <li>Artist</li>
-            </ul>
-            <a href="#">Library</a>
-            <ul className="panel-list">
-                <li>Recent</li>
-                <li>Albums</li>
-                <li>Favorites</li>
-                <li>Local</li>
-            </ul>
-            <a href="#" onClick={handlePlaylistClick} >Playlist</a>
-            <a href="#">Contact</a>
+             <a>Menu</a>
+             
+            
+            <h3 onClick={handlePlaylistClick} >Playlist</h3>
+            <h3 onClick={handleContactClick}>Contact</h3>
+            <h3 onClick={handleSettingsClick}>Setting</h3>
         </div>
     );
 };
