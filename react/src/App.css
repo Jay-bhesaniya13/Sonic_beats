@@ -409,7 +409,7 @@ input[type="number"] {
   font-size: 25px;
   color: white;
   transition: 0.3s;
-}
+ }
 
 
 .panel-login-button  {
@@ -428,11 +428,16 @@ input[type="number"] {
 
 
 
+
 .sidepanel a:hover {
   color: #66ccdf;
   text-shadow: 10px 1px 28px rgba(75, 223, 228, 0.979);
+  cursor: pointer;
 }
-
+.sidepanel h3:hover {
+  cursor: pointer;
+}
+ 
 .panel-list {
   padding: 0;
   list-style: none;
@@ -591,7 +596,7 @@ input[type="number"] {
 
 
 /****************** Playlist.jsx page css start  ***************************/
-
+ 
  
 
 

@@ -88,9 +88,9 @@ const Playlist = () => {
                 prevPlaylists.map((playlist) =>
                     playlist._id === playlistId
                         ? {
-                              ...playlist,
-                              songs: playlist.songs.filter((song) => song._id !== musicId),
-                          }
+                            ...playlist,
+                            songs: playlist.songs.filter((song) => song._id !== musicId),
+                        }
                         : playlist
                 )
             );

@@ -175,7 +175,7 @@ const MainContent = ({
                             <MusicCard
                                 key={music._id}
                                 music={music}
-                                onClick={() => handleMusicCardClick(music, index)}
+                                onCardClick={() => handleMusicCardClick(music, index)}
                                 onAddSong={() => handleAddSongToPlaylist(music._id)}
                             />
                         ))}
@@ -191,7 +191,7 @@ const MainContent = ({
                             <MusicCard
                                 key={music._id}
                                 music={music}
-                                onClick={() => handleMusicCardClick(music, index)}
+                                onCardClick={() => handleMusicCardClick(music, index)}
                                 onAddSong={() => handleAddSongToPlaylist(music._id)}
                             />
                         ))}
@@ -207,7 +207,7 @@ const MainContent = ({
                             <MusicCard
                                 key={music._id}
                                 music={music}
-                                onClick={() => handleMusicCardClick(music, index)}
+                                onCardClick={() => handleMusicCardClick(music, index)}
                                 onAddSong={() => handleAddSongToPlaylist(music._id)}
                             />
                         ))}
