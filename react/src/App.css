@@ -1,0 +1,603 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+ 
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+body {
+  font-family: "Lato", sans-serif;
+  background-color: #625f5f;
+  color: rgb(10, 9, 9);
+  margin: 0;
+  padding: 0;
+}
+
+/**************************** Side Panel css start ****************************/
+
+.sidepanel {
+  width: 250px;
+  border-radius: 2vw;
+  position: fixed;
+  z-index: 1;
+  height: 92%;
+  top: 0;
+  left: 0;
+  margin: .5vw;
+  background-color: #252727;
+  overflow-y: auto;
+  padding-top: 60px;
+  transition: 0.5s;
+  text-align: center;
+}
+
+.sidepanel a {
+  display: block;
+  padding: 8px;
+  text-decoration: none;
+  font-size: 25px;
+  color: white;
+  transition: 0.3s;
+}
+
+.sidepanel h3 {
+  display: block;
+  padding: 8px;
+  text-decoration: none;
+  font-size: 25px;
+  color: white;
+  transition: 0.3s;
+}
+
+.sidepanel h3:hover {
+  color: #66ccdf;
+  text-shadow: 10px 1px 28px rgba(75, 223, 228, 0.979);
+}
+
+
+.sidepanel button
+{
+  
+    background-color: #e8834d;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+  
+}
+ 
+/**************************** Side Panel css start ****************************/
+
+
+/************************** Login css start ***************************/
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Use 100% of the viewport height */
+}
+
+.login-box {
+  background-color: black;
+  padding: 30px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  width: 300px;
+}
+
+.login-box h2 {
+  text-align: center;
+  color: white;
+  margin-bottom: 20px;
+}
+
+.login-box input[type=text],
+.login-box input[type=password] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+.login-box button {
+  background-color: #4fbbce;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.login-box button:hover {
+  background-color: #4fbbc2;
+}
+
+.login-box a {
+  color: white;
+  text-decoration: none;
+  display: block;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.login-box a:hover {
+  color: #4fbbc2;
+}
+
+/************************* Login css End ***********************************/
+
+
+/************************* Register CSS Start**************************************/
+
+.signup-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Use 100% of the viewport height */
+}
+
+.signup-box {
+  background-color: black;
+  padding: 30px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  width: 300px;
+}
+
+.signup-box h2 {
+  text-align: center;
+  color: white;
+  margin-bottom: 20px;
+}
+
+.signup-box input[type=text],
+.signup-box input[type=email],
+.signup-box input[type=password] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+.signup-box button {
+  background-color: #4fbbce;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+  font-size: 16px;
+}
+
+.signup-box button:hover {
+  background-color: #4fbbc2;
+}
+
+
+/*************************** Register Page CSS End **********************/
+
+/*************************** Admin Panel Css Start **********************/
+.admin-panel {
+  max-width: 500px; /* Reduced width of the form */
+  margin: 50px auto;
+  background-color: #2b2b2b; /* Dark black/grey background */
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  padding: 25px;
+  transition: box-shadow 0.3s ease;
+}
+
+.admin-panel:hover {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2); /* Slight hover effect */
+}
+
+.admin-panel h1 {
+  text-align: center;
+  font-size: 2.2em;
+  margin-bottom: 25px;
+  color: #ffffff; /* White color for text */
+}
+
+.admin-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group {
+  margin-bottom: 18px;
+  margin-right: 20px; /* Added right margin for form fields */
+}
+
+.form-group label {
+  font-size: 1.15em;
+  margin-bottom: 8px;
+  color: #dddddd; /* Light grey for labels */
+}
+
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group input[type="file"] {
+  width: calc(100% - 20px); 
+  padding: 12px;
+  font-size: 1.1em;
+  border: 1px solid #555555; 
+  border-radius: 5px;
+  margin-top: 7px;
+  background-color: #444444;  
+  color: #ffffff;  
+}
+
+/* Remove the number input controls */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none; /* For Chrome, Safari, and Opera */
+  margin: 0; /* Remove margin */
+}
+
+input[type="number"] {
+  -moz-appearance: textfield; /* For Firefox */
+}
+
+.form-group input[type="file"] {
+  padding: 10px;
+}
+
+.submit-button {
+  width: calc(50% - 20px);  
+  padding: 12px;  
+  font-size: 1.2em;  
+  background-color: rgba(75, 223, 228, 0.979);  
+  border: none;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  margin: 0 auto;  
+  display: block;  
+}
+
+
+.submit-button:hover {
+  background-color: rgba(62, 185, 189, 0.979); 
+  transform: translateY(-2px);  
+}
+
+@media (max-width: 768px) {
+  .admin-panel {
+    padding: 20px;
+    max-width: 90%;  
+  }
+
+  .submit-button {
+    font-size: 1.1em;
+  }
+}
+
+.checkbox-container label {
+  color: white;
+}
+
+/**************************** Admin Panel Css End ****************************/
+
+
+
+/**************************** music audio controller css start  **********************************/
+
+
+.music-details {
+  color: #e6e6e6;
+}
+
+.music-details h2 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.music-details p {
+  margin: 5px 0;
+}
+
+.music-player {
+  position: fixed;
+  bottom: 0;
+  margin-bottom: 15px;
+  width: 50%;
+  background-color: #000000;
+  border-radius: 15px;
+  border: 1px solid aqua;
+  padding: 10px;
+  box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  color: white;
+}
+
+.player-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.player-controls button {
+  background-color: #66ccdf;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  margin: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.player-controls button:hover {
+  background-color: #5bb5c9;
+}
+
+.player-controls input[type="range"] {
+  margin: 0 10px;
+  width: 300px;
+}
+
+#currentTime,
+#duration {
+  color: #e6e6e6;
+}
+
+.current-track-title {
+  margin-bottom: 5px; 
+  color: white;  
+}
+
+
+
+
+/**************************** music audio controller css end  *****************************/
+
+
+/**************************** Side Panel Css Start **************************/
+
+
+.sidepanel {
+  width: 250px;
+  border-radius: 2vw;
+  position: fixed;
+  z-index: 1;
+  height: 92%;
+  top: 0;
+  left: 0;
+  margin: .5vw;
+  background-color: #252727;
+  overflow-y: auto;
+  padding-top: 60px;
+  transition: 0.5s;
+  text-align: center;
+}
+
+.sidepanel a {
+  display: block;
+  padding: 8px;
+  text-decoration: none;
+  font-size: 25px;
+  color: white;
+  transition: 0.3s;
+ }
+
+
+.panel-login-button  {
+  background-color: #66ccdf;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  margin: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.panel-login-button:hover {
+  background-color: #5bb5c9;
+}
+
+
+
+
+.sidepanel a:hover {
+  color: #66ccdf;
+  text-shadow: 10px 1px 28px rgba(75, 223, 228, 0.979);
+  cursor: pointer;
+}
+.sidepanel h3:hover {
+  cursor: pointer;
+}
+ 
+.panel-list {
+  padding: 0;
+  list-style: none;
+}
+
+.panel-list li {
+  margin: 1vw 0;
+  color: rgb(151, 161, 170);
+}
+
+.panel-list li:hover {
+  color: rgb(61, 188, 192);
+  text-shadow: 10px 1px 25px rgba(75, 223, 228, 0.938);
+}
+
+/**************************** Side Panel Css End **************************/
+
+/**************************** Search bar Panel Css End **************************/
+/* App.css */
+.search-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+  margin-right: 20px;
+}
+
+.search-bar-centered {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.search-input {
+  padding: 10px;
+  width: 300px;
+  font-size: 1em;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-right: 10px;
+}
+
+.search-button {
+  padding: 10px 20px;
+  font-size: 1em;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+}
+
+
+
+/**************************** Search bar Panel Css End **************************/
+
+/**************************** Main Content Css Start **************************/
+
+ 
+.main-content {
+  position: fixed;
+  top: 0;
+  left: 270px;
+  width: calc(100% - 270px);
+  height: 92%;
+  padding: 20px;
+  padding-bottom: 100px;
+  background-color: #252727;
+  color: rgb(216, 217, 218);
+  border-radius: 1.5vw;
+  overflow-y: auto;
+  text-align: center;
+  box-sizing: border-box;
+  margin-top: 10px;
+
+}
+
+.card {
+  padding: 2em;
+}
+
+/* Media Queries */
+@media screen and (max-width: 1200px) {
+  .sidepanel {
+    width: 200px;
+    margin: 0;
+  }
+
+  .main-content {
+    left: 200px;
+    width: calc(100% - 200px);
+  }
+}
+
+@media screen and (max-width: 520px) {
+  .sidepanel {
+    width: 100%;
+    height: auto;
+    margin: 0;
+    padding-top: 15px;
+  }
+
+  .main-content {
+    left: 0;
+    width: 100%;
+    padding: 10px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .sidepanel {
+    width: 92%;
+    height: auto;
+    margin: 20px;
+    padding-top: 15px;
+  }
+
+  .main-content {
+    left: 0;
+    width: calc(100% - 40px);
+    margin: 20px;
+    padding: 10px;
+  }
+}
+.music-card-par {
+  display: flex;                   /* Use flexbox for horizontal layout */
+  overflow-x: auto;               /* Enable horizontal scrolling */
+  overflow-y: hidden;             /* Hide vertical overflow */
+  white-space: nowrap;            /* Prevent cards from wrapping to the next line */
+  gap: 20px;                      /* Gap between cards */
+  -ms-overflow-style: none;       /* Hide scrollbar for Internet Explorer */
+  scrollbar-width: none;          /* Hide scrollbar for Firefox */
+}
+
+.music-card {
+  flex: 0 0 20%;                  /* Each card takes up 20% of the container's width (for 5 cards) */
+  max-width: 20%;                 /* Set max-width to ensure cards do not exceed 20% */
+  background-color: #333;
+  margin: 10px 0;                 /* Top and bottom margin */
+  padding: 20px;
+  border: transparent .2px solid;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(170, 163, 163, 0.2);
+  box-sizing: border-box;
+}
+
+.music-card:hover {
+  border: white .02px solid;
+}
+
+.music-image {
+  width: 100px;
+  height: 100px;
+  border-radius: 10px;
+  margin-right: 20px;
+}
+
+
+/****************** Playlist.jsx page css start  ***************************/
+ 
+ 
+
+
+/****************** Playlist.jsx page css End  ***************************/
