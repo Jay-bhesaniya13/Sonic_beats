@@ -28,10 +28,10 @@ const musicSchema = new mongoose.Schema({
   },
   like: {
     type: Number,
-    default: 0,  // Initialize with 0
+    default: 0,
   }
 }, {
   timestamps: true
 });
 
-export default mongoose.model('Music', musicSchema);
+ export default mongoose.models.Music || mongoose.model('Music', musicSchema);

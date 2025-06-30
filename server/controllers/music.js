@@ -1,5 +1,7 @@
 import Music from '../models/music.js';
 import Playlist from '../models/playlist.js';
+import path from 'path';
+import { parseFile } from 'music-metadata';
 
 
 // Get all music tracks
@@ -26,17 +28,43 @@ export const getMusicById = async (req, res) => {
   }
 };
 
-// Create a new music track
+     
 export const createMusic = async (req, res) => {
-  const { title, artist, duration, musicImg, filePath, genre } = req.body;
   try {
-    const musicTrack = new Music({ title, artist, duration, musicImg, filePath, genre });
+    const { title, artist, genre } = req.body;
+
+    const musicFile = req.files?.musicFile?.[0];
+    const coverFile = req.files?.coverFile?.[0];
+
+    if (!musicFile || !coverFile) {
+      return res.status(400).json({ message: 'Both music and cover files are required.' });
+    }
+
+    // Get duration from MP3 file
+    const metadata = await parseFile(musicFile.path);
+    const durationSeconds = Math.round(metadata.format.duration); // round to nearest second
+
+    const musicImg = path.basename(coverFile.path);  // Save just filename
+    const filePath = path.basename(musicFile.path);  // Save just filename
+
+    const musicTrack = new Music({
+      title,
+      artist,
+      duration: durationSeconds,
+      genre,
+      musicImg,
+      filePath
+    });
+
     await musicTrack.save();
-    res.status(201).json(musicTrack);
+
+    res.status(201).json({ message: "Music track created", data: musicTrack });
   } catch (error) {
-    res.status(500).json({ message: 'Error creating music track', error });
+    console.error('Error creating music track:', error);
+    res.status(500).json({ message: 'Error creating music track', error: error.message });
   }
 };
+
 
 // Update music by ID
 export const updateMusicById = async (req, res) => {

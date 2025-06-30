@@ -2,6 +2,7 @@ import cors from 'cors';
 import express from 'express';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
+import { seedMusicIfEmpty } from './seed/musicSeeder.js';
 
 
 // Create an Express application
@@ -11,12 +12,17 @@ const app = express();
 // Middleware to parse JSON data
 app.use(bodyParser.json());
 
-app.use(cors());
+// Allow all origins
+app.use(cors({
+  origin: '*',
+}));
+
 // Connect to MongoDB
 
 mongoose.connect('mongodb://localhost:27017/Sonic_beats')
-  .then(() => {
+  .then(async () => {
     console.log('MongoDB connection successful');
+     await seedMusicIfEmpty(); // 👈 Seed only if empty
   })
   .catch((error) => {
     console.error('MongoDB connection error:', error);
