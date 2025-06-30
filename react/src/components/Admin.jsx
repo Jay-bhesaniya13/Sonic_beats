@@ -37,15 +37,27 @@ const Admin = () => {
         data.append('coverFile', coverFile);  // Append cover image
 
         try {
-            const response = await fetch('http://localhost:3000/music', {
-                method: 'POST',
-                body: data,
-            });
-            const result = await response.json();
-            console.log('Music added successfully:', result);
-        } catch (error) {
-            console.error('Error adding music:', error);
-        }
+
+            console.log("Req.b0dy react:"+data.get('title'))
+    const response = await fetch('http://localhost:3000/music', {
+        method: 'POST',
+        body: data,
+    });
+
+    const text = await response.text(); // instead of .json()
+    console.log("Raw response text:", text);
+
+    try {
+        const result = JSON.parse(text);
+        console.log('Music added successfully:', result);
+    } catch (jsonError) {
+        console.error("⚠️ JSON parse failed:", jsonError);
+    }
+
+} catch (error) {
+    console.error('Error adding music:', error);
+}
+
     };
 
     return (
