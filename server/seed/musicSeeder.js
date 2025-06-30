@@ -73,14 +73,7 @@ const musicSeedData = [
     filePath: "song/Vishvambhari-Stuti.mp3",
     genre: "Aarti",
   },
-  {
-    title: "dk",
-    artist: "fvn",
-    duration: 243,
-    musicImg: "dk.jpg",
-    filePath: "dk.mp3",
-    genre: "popop",
-  }
+  
 ];
 
 export const seedMusicIfEmpty = async () => {

@@ -5,7 +5,7 @@ const ContactPage = () => {
     return (
         <div className="contact-container">
             <div className="contact-row">
-                <h1>Contact Us</h1>
+               <h1>Contact Us</h1>
             </div>
             <div className="contact-row">
                 <h4 style={{ textAlign: 'center' }}>We'd love to hear from you!</h4>
