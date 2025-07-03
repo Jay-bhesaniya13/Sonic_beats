@@ -15,111 +15,63 @@ const MainContent = ({
     handleMusicCardClick,
 }) => {
     const [user, setUser] = useState(null);
-    const [playlistName, setPlaylistName] = useState('');
+    const [favouriteName, setFavouriteName] = useState('');
 
-    // Load the user from localStorage
     useEffect(() => {
         const storedUser = localStorage.getItem('userData');
-        console.log("Stored user:", storedUser);
-
         if (storedUser) {
             try {
                 const parsedUser = JSON.parse(storedUser);
-
                 if (parsedUser && parsedUser.id) {
-                    setUser({
-                        ...parsedUser,
-                        playlists: parsedUser.playlists || [] // Initialize playlists if undefined
-                    });
-                    setPlaylistName(`${parsedUser.username}'s Playlist`);
+                    setUser(parsedUser);
+                    setFavouriteName(`${parsedUser.username}'s Favourites`);
                 } else {
-                    console.error('User not found in localStorage or missing _id');
-                    alert('User not found in localStorage or missing user ID');
+                    alert('Invalid user data. Please log in again.');
+                    localStorage.removeItem('userData');
                 }
             } catch (error) {
-                console.error('Failed to parse user data:', error);
+                console.error('Error parsing user data:', error);
             }
         } else {
-            console.error('No user data found in localStorage');
             alert('No user data found. Please log in.');
         }
     }, []);
 
-    // Log user data when it changes
-    useEffect(() => {
-        if (user) {
-            console.log("Updated user data:");
-            console.log(user);
-        }
-    }, [user]); // This will log user data whenever the user state changes
+   const handleAddSongToFavourites = async (musicId) => {
+  const user = JSON.parse(localStorage.getItem('userData'));
+  const token = localStorage.getItem('token');
 
-    // Function to add a song to the user's playlist
-    const handleAddSongToPlaylist = async (musicId) => {
-        if (!user) {
-            alert('User not logged in');
-            return;
-        }
+  if (!user || !token) {
+    alert('Please login to add to favourites');
+    return;
+  }
 
-        try {
-            console.log("user.id passed to create/update playlist : ")
-            console.log(user.id)
-            // Check if the user has any playlists in their playlists array
-            let userPlaylist = user.playlists && user.playlists[0]; // Safely access playlists array
+  try {
+    const response = await fetch(`http://localhost:3000/favourite/user/${user.id}/add/${musicId}`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
 
-            if (!userPlaylist) {
-                // No playlist exists, so create a new one
-                const createResponse = await fetch('http://localhost:3000/playlist', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${localStorage.getItem('token')}`,
-                    },
-                    body: JSON.stringify({
-                        name: playlistName,  // Playlist name, e.g., "John's Playlist"
-                        description: 'My favorite songs',
-                        songs: [musicId],  // Add the selected song to the playlist
-                        userId: user.id,  // Reference to the user ID
-                    }),
-                });
+    const result = await response.json();
 
-                if (!createResponse.ok) {
-                    const errorData = await createResponse.json();
-                    alert(errorData.message || 'Failed to create playlist');
-                    return;
-                }
+    if (result.alreadyExists) {
+      alert('Song is already in your favourites.');
+    } else {
+      alert('Song added to your favourites.');
+    }
+  } catch (error) {
+    console.error('Error adding song:', error);
+    alert('Failed to add song to favourites.');
+  }
+};
 
-                const newPlaylist = await createResponse.json(); // Store the newly created playlist
-                userPlaylist = newPlaylist;  // Set the new playlist for future song additions
 
-                // Update localStorage with the new playlist
-                const updatedUser = { ...user, playlists: [newPlaylist._id] };
-                localStorage.setItem('userData', JSON.stringify(updatedUser));
-                setUser(updatedUser); // Update the user state with the new playlist
-                
-                alert(`New playlist created and song added to ${playlistName}`);
-            } else {
-                // Playlist exists, just add the song to it
-                const addSongResponse = await fetch(`http://localhost:3000/playlist/${userPlaylist}/add/${musicId}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${localStorage.getItem('token')}`,
-                    },
-                });
-
-                if (!addSongResponse.ok) {
-                    const errorData = await addSongResponse.json();
-                    alert(errorData.message || 'Failed to add song to playlist');
-                    return;
-                }
-
-                alert(`Song added to ${playlistName}`);
-            }
-
-        } catch (error) {
-            console.error('Error adding song to playlist:', error);
-            alert('An error occurred. Please try again.');
-        }
+    const handleSearchSubmit = (e) => {
+        e.preventDefault();
+        handleSearch();
     };
 
     return (
@@ -132,10 +84,9 @@ const MainContent = ({
                 />
             </div>
 
-            {/* Centered Search Bar */}
             {showSearch && (
                 <div className="search-bar-centered">
-                    <form onSubmit={handleSearch}>
+                    <form onSubmit={handleSearchSubmit}>
                         <input
                             type="text"
                             placeholder="Search for music..."
@@ -148,20 +99,17 @@ const MainContent = ({
                 </div>
             )}
 
-            {/* Music Sections */}
             {trendingMusic.length > 0 && (
                 <>
                     <h3>Trending Music</h3>
                     <div className="music-card-par">
                         {trendingMusic.map((music, index) => (
-                          <MusicCard
-                          key={music._id}
-                          music={music}
-                          onCardClick={() => handleMusicCardClick(music, index)} // Pass the click handler
-                          onAddSong={() => handleAddSongToPlaylist(music._id)}
-                      />
-                      
-                       
+                            <MusicCard
+                                key={music._id}
+                                music={music}
+                                onCardClick={() => handleMusicCardClick(music, index)}
+                                onAddSong={() => handleAddSongToFavourites(music._id)}
+                            />
                         ))}
                     </div>
                 </>
@@ -176,7 +124,7 @@ const MainContent = ({
                                 key={music._id}
                                 music={music}
                                 onCardClick={() => handleMusicCardClick(music, index)}
-                                onAddSong={() => handleAddSongToPlaylist(music._id)}
+                                onAddSong={() => handleAddSongToFavourites(music._id)}
                             />
                         ))}
                     </div>
@@ -192,7 +140,7 @@ const MainContent = ({
                                 key={music._id}
                                 music={music}
                                 onCardClick={() => handleMusicCardClick(music, index)}
-                                onAddSong={() => handleAddSongToPlaylist(music._id)}
+                                onAddSong={() => handleAddSongToFavourites(music._id)}
                             />
                         ))}
                     </div>
@@ -208,7 +156,7 @@ const MainContent = ({
                                 key={music._id}
                                 music={music}
                                 onCardClick={() => handleMusicCardClick(music, index)}
-                                onAddSong={() => handleAddSongToPlaylist(music._id)}
+                                onAddSong={() => handleAddSongToFavourites(music._id)}
                             />
                         ))}
                     </div>

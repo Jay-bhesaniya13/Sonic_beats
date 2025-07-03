@@ -4,50 +4,41 @@ import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import { seedMusicIfEmpty } from './seed/musicSeeder.js';
 
-
-// Create an Express application
 const app = express();
 
-
-// Middleware to parse JSON data
+// Middleware
 app.use(bodyParser.json());
+app.use(cors({ origin: '*' }));
 
-// Allow all origins
-app.use(cors({
-  origin: '*',
-}));
-
-// Connect to MongoDB
-
+// MongoDB Connection
 mongoose.connect('mongodb://localhost:27017/Sonic_beats')
   .then(async () => {
     console.log('MongoDB connection successful');
-     await seedMusicIfEmpty(); // 👈 Seed only if empty
+    await seedMusicIfEmpty();
   })
   .catch((error) => {
     console.error('MongoDB connection error:', error);
   });
 
-
-
-// Import and use API routes
+// Import Routes
 import user_routes from './routes/user.js';
 import admin_routes from './routes/admin.js';
 import music_routes from './routes/music.js';
-import playlist_routes from './routes/playlist.js';
+import favourite_routes from './routes/favourite.js'; 
 
+// Use Routes
 app.use('/user', user_routes);
 app.use('/admin', admin_routes);
 app.use('/music', music_routes);
-app.use('/playlist', playlist_routes);
+ app.use('/favourite', favourite_routes);  
 
-// Serve a basic message or error for undefined routes
+// Fallback Route
 app.get('*', (req, res) => {
-    res.status(404).json({ message: 'Route not found' });
+  res.status(404).json({ message: 'Route not found' });
 });
 
-// Start the server
+// Start Server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+  console.log(`Server is running on port ${PORT}`);
 });

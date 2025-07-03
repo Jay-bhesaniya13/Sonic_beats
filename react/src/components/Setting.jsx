@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import SidePanel from './SidePanel';
+import '../Setting.css';
 
 const Setting = () => {
     const [currentPassword, setCurrentPassword] = useState('');
@@ -41,35 +43,38 @@ const Setting = () => {
     };
 
     return (
-        <div className="setting-page">
-            <h2>Change Password</h2>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-            {success && <p style={{ color: 'green' }}>{success}</p>}
-            <div>
-                <label>Current Password:</label>
-                <input
-                    type="password"
-                    value={currentPassword}
-                    onChange={(e) => setCurrentPassword(e.target.value)}
-                />
+        <div className="main-layout">
+            <SidePanel />
+            <div className="setting-page">
+                <h2>Change Password</h2>
+                {error && <p style={{ color: 'red' }}>{error}</p>}
+                {success && <p style={{ color: 'green' }}>{success}</p>}
+                <div>
+                    <label>Current Password:</label>
+                    <input
+                        type="password"
+                        value={currentPassword}
+                        onChange={(e) => setCurrentPassword(e.target.value)}
+                    />
+                </div>
+                <div>
+                    <label>New Password:</label>
+                    <input
+                        type="password"
+                        value={newPassword}
+                        onChange={(e) => setNewPassword(e.target.value)}
+                    />
+                </div>
+                <div>
+                    <label>Confirm New Password:</label>
+                    <input
+                        type="password"
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                    />
+                </div>
+                <button onClick={handleChangePassword}>Change Password</button>
             </div>
-            <div>
-                <label>New Password:</label>
-                <input
-                    type="password"
-                    value={newPassword}
-                    onChange={(e) => setNewPassword(e.target.value)}
-                />
-            </div>
-            <div>
-                <label>Confirm New Password:</label>
-                <input
-                    type="password"
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                />
-            </div>
-            <button onClick={handleChangePassword}>Change Password</button>
         </div>
     );
 };

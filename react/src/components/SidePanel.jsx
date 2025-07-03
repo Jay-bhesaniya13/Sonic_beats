@@ -2,42 +2,40 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../App.css';
-import { useAuth } from '../AuthContext'; // Import useAuth to access login/logout
+import { useAuth } from '../AuthContext'; // Access login/logout
 
 const SidePanel = () => {
     const navigate = useNavigate();
-    const { logout } = useAuth(); // Get logout function from AuthContext
+    const { logout } = useAuth();
 
-    const handleLoginClick = () => {
-        navigate('/login');
+    const handleNavigation = (path) => {
+        navigate(path);
     };
+
     const handleLogout = () => {
-        logout(); // Call the logout function from context
-        navigate('/login'); // Redirect to login page
-    };
-    
-    const handlePlaylistClick = () => {
-        navigate('/playlist'); // Navigate to the Playlist page
-    };
-    const handleContactClick = () => {
-        navigate('/contact'); // Navigate to the Playlist page
-    };
-    const handleSettingsClick = () => {
-        navigate('/settings'); // Navigate to the Settings page
+        logout();
+        navigate('/login');
     };
 
     return (
         <div id="mySidepanel" className="sidepanel">
-             
-             <button onClick={handleLogout} >
+            <button onClick={handleLogout}>
                 Logout
             </button>
-             <a>Menu</a>
-             
-            
-            <h3 onClick={handlePlaylistClick} >Playlist</h3>
-            <h3 onClick={handleContactClick}>Contact</h3>
-            <h3 onClick={handleSettingsClick}>Setting</h3>
+
+            <a onClick={() => handleNavigation('/')} style={{ cursor: 'pointer' }}>
+                Menu
+            </a>
+
+            <h3 onClick={() => handleNavigation('/favourite')} style={{ cursor: 'pointer' }}>
+                Favourites
+            </h3>
+            <h3 onClick={() => handleNavigation('/contact')} style={{ cursor: 'pointer' }}>
+                Contact
+            </h3>
+            <h3 onClick={() => handleNavigation('/settings')} style={{ cursor: 'pointer' }}>
+                Settings
+            </h3>
         </div>
     );
 };

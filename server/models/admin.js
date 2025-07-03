@@ -19,10 +19,7 @@ const adminSchema = new mongoose.Schema({
     required: true,
     unique: true
   },
-  playlists: [{ 
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Playlist'
-  }]
+  
 }, {
   timestamps: true
 });

@@ -1,8 +1,6 @@
 import Music from '../models/music.js';
-import Playlist from '../models/playlist.js';
-import path from 'path';
+ import path from 'path';
 import { parseFile } from 'music-metadata';
-
 
 // Get all music tracks
 export const getAllMusic = async (req, res) => {
@@ -28,7 +26,7 @@ export const getMusicById = async (req, res) => {
   }
 };
 
-     
+// Create a new music track
 export const createMusic = async (req, res) => {
   try {
     const { title, artist, genre } = req.body;
@@ -40,12 +38,11 @@ export const createMusic = async (req, res) => {
       return res.status(400).json({ message: 'Both music and cover files are required.' });
     }
 
-    // Get duration from MP3 file
     const metadata = await parseFile(musicFile.path);
-    const durationSeconds = Math.round(metadata.format.duration); // round to nearest second
+    const durationSeconds = Math.round(metadata.format.duration);
 
-    const musicImg = path.basename(coverFile.path);  // Save just filename
-    const filePath = path.basename(musicFile.path);  // Save just filename
+    const musicImg = path.basename(coverFile.path);
+    const filePath = path.basename(musicFile.path);
 
     const musicTrack = new Music({
       title,
@@ -65,13 +62,16 @@ export const createMusic = async (req, res) => {
   }
 };
 
-
 // Update music by ID
 export const updateMusicById = async (req, res) => {
   const { id } = req.params;
   const { title, artist, duration, musicImg, filePath, genre } = req.body;
   try {
-    const musicTrack = await Music.findByIdAndUpdate(id, { title, artist, duration, musicImg, filePath, genre }, { new: true });
+    const musicTrack = await Music.findByIdAndUpdate(
+      id,
+      { title, artist, duration, musicImg, filePath, genre },
+      { new: true }
+    );
     if (!musicTrack) {
       return res.status(404).json({ message: 'Music track not found' });
     }
@@ -81,21 +81,19 @@ export const updateMusicById = async (req, res) => {
   }
 };
 
-
-// Delete music by ID and remove it from all playlists
+// Delete music by ID and remove it from all favourites
 export const deleteMusicById = async (req, res) => {
   const { id } = req.params;
   try {
-    // Find and delete the music track
     const musicTrack = await Music.findByIdAndDelete(id);
     if (!musicTrack) {
       return res.status(404).json({ message: 'Music track not found' });
     }
 
-    // Remove the deleted track from all playlists
-    await Playlist.updateMany(
-      { songs: id },  // Find playlists that contain this song
-      { $pull: { songs: id } }  // Remove the song from the songs array
+    // Remove from all favourites 
+    await Favourite.updateMany(
+      { songs: id },
+      { $pull: { songs: id } }
     );
 
     res.status(200).json({ message: 'Music track and related references deleted successfully' });

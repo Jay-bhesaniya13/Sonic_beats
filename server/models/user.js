@@ -19,9 +19,9 @@ const userSchema = new mongoose.Schema({
     required: true,
     unique: true
   },
-  playlists: [{
+  favourites: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Playlist'
+    ref: 'Music'
   }]
 }, {
   timestamps: true

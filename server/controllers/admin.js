@@ -1,10 +1,9 @@
 import Admin from '../models/admin.js';
-import Playlist from '../models/playlist.js';
 
 // Fetch all admins
 export const getAllAdmins = async (req, res) => {
   try {
-    const admins = await Admin.find().populate('playlists');
+    const admins = await Admin.find();
     res.status(200).json(admins);
   } catch (error) {
     console.error('Error fetching admins:', error);
@@ -62,7 +61,7 @@ export const updateAdmin = async (req, res) => {
   }
 };
 
-// Delete an admin by ID and associated playlists
+// Delete an admin by ID 
 export const deleteAdminById = async (req, res) => {
   const { id } = req.params;
 
@@ -73,13 +72,11 @@ export const deleteAdminById = async (req, res) => {
       return res.status(404).json({ message: 'Admin not found' });
     }
 
-    // Delete associated playlists
-    await Playlist.deleteMany({ _id: { $in: admin.playlists } });
-
+  
     // Delete the admin
     await Admin.findByIdAndDelete(id);
 
-    res.status(200).json({ message: 'Admin and associated playlists deleted successfully' });
+    res.status(200).json({ message: 'Admin deleted successfully' });
   } catch (error) {
     console.error('Error deleting admin:', error);
     res.status(500).json({ error: 'An error occurred while deleting the admin' });
