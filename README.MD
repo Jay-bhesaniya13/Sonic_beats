@@ -33,25 +33,6 @@ A full-featured **MERN Stack** (MongoDB, Express.js, React.js, Node.js) music pl
 | jsonwebtoken | JWT authentication               |
 | dotenv       | Environment config management    |
 
----
-
-## 📁 Project Structure
-
-```
-
-sonic-beats/
-├── react/                # React frontend
-├── server/
-│   ├── Auth/             # Token authentication middleware
-│   ├── models/           # Mongoose models (User, Playlist, Track)
-│   ├── routes/           # Express route handlers
-│   ├── controllers/      # Business logic
-│   ├── seed/             # Sample music seeders
-│   ├── multer/           # File upload utility
-│   ├── app.js            # Main Express app entry point
-│   └── .env              # Environment variables
-
-````
 
 ---
 
@@ -60,7 +41,7 @@ sonic-beats/
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/sonic-beats.git
+git clone https://github.com/jay-bhesaniya13/sonic-beats.git
 cd sonic-beats
 ````
 
@@ -78,7 +59,7 @@ Create a `.env` file inside the `/server` directory:
 ```env
 PORT=5000
 MONGODB_URI=mongodb://localhost:27017/Sonic_beats
-JWT_SECRET=your_jwt_secret_key
+JWT_SECRET=your_jwt_secret_key 
 ```
 
 Run the backend server:
@@ -103,59 +84,6 @@ npm run dev
 
 ---
 
-## 📦 API Endpoints
-
-### 🔐 **User Authentication & Management** (`/user`)
-
-| Method | Endpoint      | Description                    |
-| ------ | ------------- | ------------------------------ |
-| POST   | `/user/login` | Login with credentials         |
-| GET    | `/user/`      | Get all users                  |
-| GET    | `/user/:id`   | Get user by ID                 |
-| POST   | `/user/`      | Register a new user            |
-| PUT    | `/user/:id`   | Update user by ID              |
-| DELETE | `/user/:id`   | Delete user and their playlist |
-
----
-
-### 🛠️ **Admin Management** (`/admin`)
-
-| Method | Endpoint     | Description        |
-| ------ | ------------ | ------------------ |
-| GET    | `/admin/`    | Get all admins     |
-| POST   | `/admin/`    | Create a new admin |
-| PUT    | `/admin/:id` | Update admin by ID |
-| DELETE | `/admin/:id` | Delete admin by ID |
-
----
-
-### 🎵 **Music Management** (`/music`)
-
-| Method | Endpoint     | Description                            |
-| ------ | ------------ | -------------------------------------- |
-| GET    | `/music/`    | Get all music tracks                   |
-| GET    | `/music/:id` | Get a music track by ID                |
-| POST   | `/music/`    | Upload a new track (with file + cover) |
-| PUT    | `/music/:id` | Update a music track by ID             |
-| DELETE | `/music/:id` | Delete a music track by ID             |
-
-> 🔧 `POST /music/` uses `multipart/form-data` via `multer` for file and image uploads.
-
----
-
-### 🎧 **Playlist Management** (`/playlist`)
-
-| Method | Endpoint                        | Description                   |
-| ------ | ------------------------------- | ----------------------------- |
-| GET    | `/playlist/`                    | Get all playlists             |
-| GET    | `/playlist/:id`                 | Get a playlist by ID          |
-| POST   | `/playlist/`                    | Create a new playlist         |
-| PUT    | `/playlist/:id/add/:musicId`    | Add a song to a playlist      |
-| PUT    | `/playlist/:id/remove/:musicId` | Remove a song from a playlist |
-| DELETE | `/playlist/:id`                 | Delete a playlist by ID       |
- 
----
-
 ## 👤 User Flow
 
 1. A user registers or logs in
@@ -164,25 +92,5 @@ npm run dev
 4. Users can update or reset their playlist anytime
 
 ---
-
-## 📸 Screenshots
-
+  
  
----
-
-## 🔗 Links
-
-* 🧠 [GitHub Repository](https://github.com/your-username/sonic-beats)
-
----
-
-## 🙌 Acknowledgements
-
-* [MongoDB](https://www.mongodb.com/)
-* [Express.js](https://expressjs.com/)
-* [React.js](https://reactjs.org/)
-* [Node.js](https://nodejs.org/)
-
----
-
-
